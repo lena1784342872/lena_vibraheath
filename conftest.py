@@ -9,6 +9,8 @@ import pytest
 from playwright.sync_api import sync_playwright, Browser, BrowserContext, Page
 import allure
 from config import config
+import pytest
+from db_utils import delete_test_data_by_phone
 
 
 @pytest.fixture(scope="session")
@@ -146,3 +148,15 @@ def pytest_collection_modifyitems(items):
         # if "p0" in item.keywords:
         #     item.add_marker(pytest.mark.flaky(reruns=2))
         pass
+
+
+
+TEST_PHONE = "16566666666"
+
+@pytest.fixture( scope="function")
+def auto_cleanup():
+    # 前置清理：删除可能残留的同号数据
+    delete_test_data_by_phone(TEST_PHONE)
+    yield
+    # 后置清理：删除本次创建的数据
+    delete_test_data_by_phone(TEST_PHONE)

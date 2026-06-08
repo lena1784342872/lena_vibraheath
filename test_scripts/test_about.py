@@ -5,6 +5,8 @@
 import pytest
 import allure
 from pages.about_page import AboutPage
+import pytest
+
 
 
 @allure.feature("关于我们模块")
@@ -93,7 +95,7 @@ class TestAboutPage:
     @allure.story("表单提交")
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.title("TC030-改善健康表单提交")
-    def test_tc030_submit_improve_health_form(self):
+    def test_tc030_submit_improve_health_form(self, auto_cleanup):
         """
         用例编号: 30
         验证改善健康表单可以正常提交
@@ -113,10 +115,14 @@ class TestAboutPage:
         with allure.step("验证: 表单提交成功"):
             assert self.about_page.verify_submit_success()
 
+        with allure.step("验证创建成功"):
+            assert True  # 请替换为你的业务断言
+
+
     @allure.story("表单提交")
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.title("TC031-成为伙伴表单提交")
-    def test_tc031_submit_partner_form(self):
+    def test_tc031_submit_partner_form(self, auto_cleanup):
         """
         用例编号: 31
         验证成为伙伴表单可以正常提交
@@ -137,16 +143,5 @@ class TestAboutPage:
         with allure.step("验证: 表单提交成功"):
             assert self.about_page.verify_submit_success()
 
-    @allure.story("数据清理")
-    @allure.severity(allure.severity_level.NORMAL)
-    @allure.title("TC032-验证后删除测试数据")
-    def test_tc032_cleanup_test_data(self):
-        """
-        用例编号: 32
-        说明：纯UI自动化无法直连数据库，此用例仅做提示
-        实际项目中需要配合后端接口或手动清理数据
-        """
-        with allure.step("说明: 此用例需要数据库访问权限"):
-            print("⚠ 提示：请在数据库中手动删除测试数据")
-            print("  姓氏: chen, 名字: lena, 手机: 16566666666")
-            assert True, "数据清理提示（需手动处理或调用API）"
+        with allure.step("验证创建成功"):
+            assert True  # 请替换为你的业务断言

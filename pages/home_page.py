@@ -35,7 +35,7 @@ class HomePage(BasePage):
 
     # AI 健康管理服务区域
     SECTION_AI_SERVICE = "text=AI健康管理服务"
-    AI_SERVICE_CENTER = "text=AI智能健康管理服务中心"
+    AI_SERVICE_CENTER = "div.card-container h5:has-text('AI智能健康管理服务中心')"
 
     # 底部导航区域
     FOOTER_NAVIGATION = "div.item-container h3:has-text('导航目录')"
@@ -145,6 +145,7 @@ class HomePage(BasePage):
     def verify_ai_service_center(self):
         """验证AI智能健康管理服务中心文字是否显示"""
         assert self.get_text(self.AI_SERVICE_CENTER) == "AI智能健康管理服务中心"
+        return True
 
 
     @allure.step("滚动到页面底部")

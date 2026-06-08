@@ -28,7 +28,7 @@ class TestServicesPage:
             self.services_page.navigate_to_services()
 
         with allure.step("验证: 页面加载成功"):
-            assert self.services_page.verify_servicesa_loaded()
+            assert self.services_page.verify_services_loaded()
 
     @allure.story("团队介绍")
     @allure.severity(allure.severity_level.NORMAL)
