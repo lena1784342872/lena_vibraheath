@@ -1,17 +1,22 @@
 # db_utils.py
+import os
+
+from dotenv import load_dotenv
 from sshtunnel import SSHTunnelForwarder
 import pymysql
+
+load_dotenv()
 
 # ========== 配置（直接写在文件里，不依赖环境变量）==========
 SSH_HOST = '139.224.102.87'
 SSH_PORT = 1622
 SSH_USER = 'lena'
-SSH_PASSWORD = 'w5yGK17490Zhp6r3'
+SSH_PASSWORD = os.environ.get('SSH_PASSWORD')
 
 RDS_HOST = 'rm-uf62gi7a28z3vcz8g.mysql.rds.aliyuncs.com'
 RDS_PORT = 3306
 DB_USER = 'dev_user'
-DB_PASSWORD = 'AE4jKCoI3OlqaGnTgFQM'
+DB_PASSWORD = os.environ.get('DB_PASSWORD')
 DB_NAME = 'stg'
 DB_CHARSET = 'utf8mb4'
 
