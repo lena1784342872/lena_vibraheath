@@ -9,6 +9,7 @@ from pages.services_page import ServicesPage
 from pages.events_page import EventsPage
 from pages.data_platform_page import DataPlatformPage
 from pages.about_page import AboutPage
+import time
 
 
 @allure.feature("首页模块")
@@ -108,6 +109,7 @@ class TestHomePage:
 
         with allure.step("步骤2: 点击'健康管理'"):
             self.home_page.click_health_management_tab()
+            time.sleep(2)
             assert self.home_page.verify_health_management_content()
 
         with allure.step("步骤3: 点击'轻医疗'"):
