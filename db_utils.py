@@ -1,45 +1,39 @@
-# db_utils.py
 import os
-
 from dotenv import load_dotenv
-from sshtunnel import SSHTunnelForwarder
 import pymysql
 
+# 只在本地有 .env 文件时加载（CI 中没有 .env 也不会报错）
 load_dotenv()
 
-# ========== 配置（直接写在文件里，不依赖环境变量）==========
-SSH_HOST = '139.224.102.87'
-SSH_PORT = 1622
-SSH_USER = 'lena'
+# ========== 配置（保留你的硬编码，但允许环境变量覆盖）==========
+SSH_HOST = os.getenv('SSH_HOST', '139.224.102.87')
+SSH_PORT = int(os.getenv('SSH_PORT', '1622'))
+SSH_USER = os.getenv('SSH_USER', 'lena')
 SSH_PASSWORD = os.environ.get('SSH_PASSWORD')
+if not SSH_PASSWORD:
+    raise ValueError("SSH_PASSWORD environment variable is required")
 
-RDS_HOST = 'rm-uf62gi7a28z3vcz8g.mysql.rds.aliyuncs.com'
-RDS_PORT = 3306
-DB_USER = 'dev_user'
+RDS_HOST = os.getenv('RDS_HOST', 'rm-uf62gi7a28z3vcz8g.mysql.rds.aliyuncs.com')
+RDS_PORT = int(os.getenv('RDS_PORT', '3306'))
+DB_USER = os.getenv('DB_USER', 'dev_user')
 DB_PASSWORD = os.environ.get('DB_PASSWORD')
-DB_NAME = 'stg'
+if not DB_PASSWORD:
+    raise ValueError("DB_PASSWORD environment variable is required")
+DB_NAME = os.getenv('DB_NAME', 'stg')
 DB_CHARSET = 'utf8mb4'
-
 
 # ========== 封装函数 ==========
 def delete_test_data_by_phone(mobile: str) -> int:
-    """
-    通过 SSH 隧道连接 RDS，删除指定手机号的测试数据。
+    from sshtunnel import SSHTunnelForwarder
 
-    :param phone: 要删除的手机号
-    :return: 删除的记录数
-    """
-    # 1. 创建 SSH 隧道
     with SSHTunnelForwarder(
             (SSH_HOST, SSH_PORT),
             ssh_username=SSH_USER,
             ssh_password=SSH_PASSWORD,
             remote_bind_address=(RDS_HOST, RDS_PORT),
-            local_bind_address=('127.0.0.1', 0) # 让系统自动分配空闲端口
+            local_bind_address=('127.0.0.1', 0)
     ) as tunnel:
-        print(f"✅ SSH 隧道已建立，本地转发端口: {tunnel.local_bind_port}")
-
-        # 2. 通过隧道连接数据库
+        print(f"✅ SSH tunnel established, local port: {tunnel.local_bind_port}")
         conn = pymysql.connect(
             host='127.0.0.1',
             port=tunnel.local_bind_port,
@@ -48,29 +42,22 @@ def delete_test_data_by_phone(mobile: str) -> int:
             database=DB_NAME,
             charset=DB_CHARSET
         )
-
         try:
             with conn.cursor() as cursor:
-                # 3. 执行删除（参数化查询，避免 SQL 注入）
                 sql = "DELETE FROM `vh_applications` WHERE mobile = %s"
                 affected_rows = cursor.execute(sql, (mobile,))
                 conn.commit()
-                print(f"✅ 清理完成，共删除 {affected_rows} 条手机号为 {mobile} 的测试数据")
+                print(f"✅ Deleted {affected_rows} records for phone {mobile}")
                 return affected_rows
         except Exception as e:
             conn.rollback()
-            print(f"❌ 数据清理失败: {e}")
+            print(f"❌ Failed: {e}")
             raise
         finally:
             conn.close()
-            print("🔒 数据库连接已关闭")
-
-    # 隧道自动关闭
-    print("🔒 SSH 隧道已自动关闭")
-
 
 def list_databases():
-    """通过 SSH 隧道连接 RDS，列出所有数据库"""
+    from sshtunnel import SSHTunnelForwarder
     with SSHTunnelForwarder(
         (SSH_HOST, SSH_PORT),
         ssh_username=SSH_USER,
@@ -78,7 +65,6 @@ def list_databases():
         remote_bind_address=(RDS_HOST, RDS_PORT),
         local_bind_address=('127.0.0.1', 0)
     ) as tunnel:
-        print(f"✅ SSH 隧道已建立，本地端口: {tunnel.local_bind_port}")
         conn = pymysql.connect(
             host='127.0.0.1',
             port=tunnel.local_bind_port,
@@ -88,7 +74,7 @@ def list_databases():
         )
         with conn.cursor() as cursor:
             cursor.execute("SHOW DATABASES")
-            print("\n📋 数据库列表：")
+            print("\n📋 Databases:")
             for db in cursor.fetchall():
                 print(f"  - {db[0]}")
         conn.close()

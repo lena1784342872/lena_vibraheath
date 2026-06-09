@@ -118,7 +118,7 @@ class TestAboutPage:
         with allure.step("验证创建成功"):
             assert True  # 请替换为你的业务断言
 
-
+    @pytest.mark.usefixtures("auto_cleanup")
     @allure.story("表单提交")
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.title("TC031-成为伙伴表单提交")
