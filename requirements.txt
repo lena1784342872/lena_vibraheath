@@ -9,3 +9,5 @@ python-dotenv==1.0.0        # 环境变量管理（可选）
 PyYAML==6.0.1               # YAML配置文件解析（可选）
 
 sshtunnel>=0.4.0
+
+python-dotenv

@@ -10,17 +10,23 @@ from playwright.sync_api import sync_playwright, Browser, BrowserContext, Page
 import allure
 from config import config
 
-# ---------- 数据库清理功能（可选，依赖安装失败时降级）----------
-try:
-    from db_utils import delete_test_data_by_phone
-    DB_UTILS_AVAILABLE = True
-except (ImportError, ModuleNotFoundError) as e:
-    print(f"⚠️ 警告: 无法导入 db_utils，数据库清理功能将被禁用。原因: {e}")
+
+# ---------- 数据库清理功能（CI 中禁用，避免 SSH 隧道错误）----------
+if os.getenv('GITHUB_ACTIONS') == 'true':
     DB_UTILS_AVAILABLE = False
-    # 定义一个 dummy 函数，避免后续 NameError
     def delete_test_data_by_phone(*args, **kwargs):
-        print("⚠️ 数据库清理不可用，跳过操作")
+        print("⚠️ CI 环境：数据库清理已禁用")
         return 0
+else:
+    try:
+        from db_utils import delete_test_data_by_phone
+        DB_UTILS_AVAILABLE = True
+    except (ImportError, ModuleNotFoundError) as e:
+        print(f"⚠️ 警告: 无法导入 db_utils，数据库清理功能将被禁用。原因: {e}")
+        DB_UTILS_AVAILABLE = False
+        def delete_test_data_by_phone(*args, **kwargs):
+            print("⚠️ 数据库清理不可用，跳过操作")
+            return 0
 
 # ---------- 浏览器 fixtures ----------
 @pytest.fixture(scope="session")

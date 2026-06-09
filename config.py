@@ -3,9 +3,13 @@
 统一管理所有配置项，方便修改和维护
 """
 import os
+from dotenv import load_dotenv
 
 
 class Config:
+    # 加载 .env 文件（如果存在）
+    load_dotenv()
+
     """配置类 - 存储所有测试相关的配置信息"""
 
     # ==================== URL 配置 ====================
@@ -21,12 +25,16 @@ class Config:
         "about": "/about",  # 关于我们
     }
 
-    # ==================== 浏览器配置 ====================
+    # ---------- 浏览器配置 ----------
     BROWSER_CONFIG = {
-        "headless":True,  # False=显示浏览器窗口，True=后台运行
-        "slow_mo": 300,  # 每个操作延迟300毫秒，方便观察
-        "viewport_width": 1920,  # 浏览器宽度
-        "viewport_height": 1080,  # 浏览器高度
+        # 是否无头模式：True=后台运行（CI），False=显示窗口（本地）
+        "headless": os.getenv("HEADLESS", "false").lower() == "true",
+        # 操作延迟（毫秒），本地调试建议 300，CI 可设为 0
+        "slow_mo": int(os.getenv("SLOW_MO", "0")),
+        # 视口宽度
+        "viewport_width": int(os.getenv("VIEWPORT_WIDTH", "1920")),
+        # 视口高度
+        "viewport_height": int(os.getenv("VIEWPORT_HEIGHT", "1080")),
     }
 
     # ==================== 超时配置 ====================
