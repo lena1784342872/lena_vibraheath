@@ -33,7 +33,7 @@ jobs:
           pip install -r requirements.txt
           pip install allure-pytest   # 只用于生成 allure 结果
           # ----- 新增：安装 SSH 隧道所需依赖 -----
-          pip install sshtunnel paramiko
+          pip install pymysql sshtunnel 
 
       # 不需要 playwright install
 
