@@ -19,27 +19,24 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright/python:v1.40.0   # 内置 Python + Playwright
+    container: mcr.microsoft.com/playwright/python:v1.40.0
     timeout-minutes: 30
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 不需要 Setup Python，直接用容器内的 python3
       - name: Install Python dependencies
         run: |
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install allure-pytest   # 只用于生成 allure 结果
-          # ----- 新增：安装 SSH 隧道所需依赖 -----
-          pip install pymysql sshtunnel 
-
-      # 不需要 playwright install
+          pip install allure-pytest
+          # 安装数据库依赖（如果测试需要连接数据库）
+          pip install pymysql sshtunnel paramiko
 
       - name: Run tests
         run: |
-          if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ inputs.test_scope }}" == "p0" ]; then
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.test_scope }}" == "p0" ]]; then
             echo "Running P0 tests..."
             pytest -m p0 -v --alluredir=allure-results
           else
@@ -47,17 +44,17 @@ jobs:
             pytest -v --alluredir=allure-results
           fi
         env:
-          # 原有数据库环境变量（保持不变）
+          # 强制使用无头模式（覆盖 config.py 默认值，确保 CI 中浏览器正常启动）
+          HEADLESS: true
+          # 可选：降低操作延迟，加快 CI 速度
+          SLOW_MO: 0
+          # 数据库连接信息（如果测试需要数据库，从 secrets 读取；否则可忽略）
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-          DB_HOST: ${{ secrets.DB_HOST }}   # 不要写 localhost
+          DB_HOST: ${{ secrets.DB_HOST }}
           DB_USER: ${{ secrets.DB_USER }}
           DB_NAME: ${{ secrets.DB_NAME }}
-          # ----- 新增：SSH 隧道所需环境变量（如果你的 db_utils.py 从环境变量读取，否则代码硬编码也可）-----
-          # SSH_HOST: ${{ secrets.SSH_HOST }}      # 可选，覆盖代码中的硬编码
-          # SSH_PORT: ${{ secrets.SSH_PORT }}      # 可选
-          # SSH_USER: ${{ secrets.SSH_USER }}      # 可选
-          # RDS_HOST: ${{ secrets.RDS_HOST }}      # 可选，数据库内网地址
+          # 如果数据库连接不需要，可以不设置上述变量；但需确保 conftest.py 中有 try-except 降级处理
 
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@master

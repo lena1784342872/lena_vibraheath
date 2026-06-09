@@ -23,7 +23,7 @@ class Config:
 
     # ==================== 浏览器配置 ====================
     BROWSER_CONFIG = {
-        "headless": False,  # False=显示浏览器窗口，True=后台运行
+        "headless":True,  # False=显示浏览器窗口，True=后台运行
         "slow_mo": 300,  # 每个操作延迟300毫秒，方便观察
         "viewport_width": 1920,  # 浏览器宽度
         "viewport_height": 1080,  # 浏览器高度
