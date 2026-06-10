@@ -38,10 +38,10 @@ jobs:
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.test_scope }}" == "p0" ]]; then
             echo "Running P0 tests..."
-            pytest -m p0 -v --alluredir=allure-results
+            pytest -m p0 -v  --junitxml=report.xml  --alluredir=allure-results
           else
             echo "Running full regression..."
-            pytest -v --alluredir=allure-results
+            pytest -v  --junitxml=report.xml  --alluredir=allure-results
           fi
         env:
           # 强制使用无头模式（覆盖 config.py 默认值，确保 CI 中浏览器正常启动）
@@ -70,3 +70,32 @@ jobs:
           name: allure-report
           path: allure-report/
           retention-days: 7
+
+
+
+      - name: Send Feishu Notification
+        if: always()
+        run: |
+          # 确保 report.xml 存在（pytest 已生成）
+          if [ ! -f report.xml ]; then
+            echo "report.xml 不存在，跳过通知"
+            exit 0
+          fi
+          # 构建 Allure 报告链接（替换为你的 GitHub Pages 地址）
+          REPORT_URL="https://lena1784342872.github.io/lena_vibrahealth/"
+          python feishu_notifier.py --report=report.xml \
+            --webhook="${{ secrets.FEISHU_WEBHOOK }}" \
+            --secret="${{ secrets.FEISHU_SECRET }}" \
+            --report-url="$REPORT_URL"
+        shell: bash
+
+
+
+      - name: Deploy Allure report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+          destination_dir: .
+          keep_files: false   # 每次覆盖旧报告，保持干净
