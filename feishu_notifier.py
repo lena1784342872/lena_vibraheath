@@ -49,12 +49,22 @@ def parse_junit_xml(xml_file):
                 classname = case.get('classname', '')
                 name = case.get('name', '')
                 failure_type = 'failure' if failure_elem is not None else 'error'
-                message = (failure_elem or error_elem).get('message', '无详细信息')
+
+                # 安全获取 message
+                if failure_elem is not None:
+                    message = failure_elem.get('message', '无详细信息')
+                elif error_elem is not None:
+                    message = error_elem.get('message', '无详细信息')
+                else:
+                    message = '无详细信息'
+
+                # 添加到 failed_cases 列表（你之前漏掉了这一部分）
                 failed_cases.append({
                     'name': f"{classname}.{name}" if classname else name,
                     'type': failure_type,
                     'message': message
                 })
+
 
     passed = total - failures - errors - skipped
     return {
