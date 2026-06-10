@@ -1,0 +1,117 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"
+        用例编号: 15
+        验证服务流程区域展示7个完整的流程步骤
+        ","2743","TC015-服务流程展示7个流程","test_scripts","2026-06-10","passed","2026-06-10","TestServicesPage","test_services","",""
+"
+        用例编号: 10
+        验证点击底部导航栏的'关于我们'可以切换页面
+        ","9945","TC010-底部导航栏切换关于我们","test_scripts","2026-06-10","passed","2026-06-10","TestHomePage","test_home","",""
+"
+        用例编号: 23
+        验证健康数据平台页面可以正常访问
+        ","2137","TC023-健康数据平台页面响应正常","test_scripts","2026-06-10","passed","2026-06-10","TestDataPlatformPage","test_data_platform","",""
+"
+        用例编号: 24
+        验证全天候数字健康管理区域展示正常
+        ","2713","TC024-全天候数字健康管理展示","test_scripts","2026-06-10","passed","2026-06-10","TestDataPlatformPage","test_data_platform","",""
+"
+        用例编号: 16
+        验证健康管理计划区域展示6个图框和介绍
+        ","2777","TC016-健康管理计划展示","test_scripts","2026-06-10","passed","2026-06-10","TestServicesPage","test_services","",""
+"
+        用例编号: 6
+        验证页面底部导航目录展示正常
+        ","8280","TC006-导航目录展示","test_scripts","2026-06-10","passed","2026-06-10","TestHomePage","test_home","",""
+"
+        用例编号: 1
+        验证能够正常访问官方网站首页
+        ","5853","TC001-进入官方网站","test_scripts","2026-06-10","passed","2026-06-10","TestHomePage","test_home","",""
+"
+        用例编号: 12
+        验证专属服务页面可以正常访问
+        ","2188","TC012-专属服务页面响应正常","test_scripts","2026-06-10","passed","2026-06-10","TestServicesPage","test_services","",""
+"
+        用例编号: 5
+        验证AI健康管理服务区域展示正常
+        ","8349","TC005-AI健康管理服务展示","test_scripts","2026-06-10","passed","2026-06-10","TestHomePage","test_home","",""
+"
+        用例编号: 28
+        验证联系我们表单展示正常
+        ","3380","TC028-联系我们表单展示","test_scripts","2026-06-10","passed","2026-06-10","TestAboutPage","test_about","",""
+"
+        用例编号: 2
+        验证在不同分辨率下页面展示正常
+        ","5312","TC002-不同分辨率展示正常","test_scripts","2026-06-10","passed","2026-06-10","TestHomePage","test_home","",""
+"
+        用例编号: 21
+        验证健康资讯的分类切换功能正常
+        ","5161","TC021-健康资讯分类切换","test_scripts","2026-06-10","passed","2026-06-10","TestEventsPage","test_events","",""
+"
+        用例编号: 25
+        验证可视化大屏分析身体指标区域展示正常
+                ","2730","TC025-可视化大屏展示","test_scripts","2026-06-10","passed","2026-06-10","TestDataPlatformPage","test_data_platform","",""
+"
+        用例编号: 13
+        验证团队介绍区域的标题和图片内容展示正常
+        ","2726","TC013-团队介绍展示","test_scripts","2026-06-10","passed","2026-06-10","TestServicesPage","test_services","",""
+"
+        用例编号: 3
+        验证点击顶部导航栏可以正常切换页面
+        ","10943","TC003-顶部导航栏切换页面","test_scripts","2026-06-10","passed","2026-06-10","TestHomePage","test_home","",""
+"
+        用例编号: 7
+        验证点击底部导航栏的'专属服务'可以切换页面
+        ","9916","TC007-底部导航栏切换专属服务","test_scripts","2026-06-10","passed","2026-06-10","TestHomePage","test_home","",""
+"
+        用例编号: 9
+        验证点击底部导航栏的'健康数据平台'可以切换页面
+        ","9976","TC009-底部导航栏切换健康数据平台","test_scripts","2026-06-10","passed","2026-06-10","TestHomePage","test_home","",""
+"
+        用例编号: 14
+        验证专属医生团队区域展示正常
+        ","2737","TC014-专属医生团队展示","test_scripts","2026-06-10","passed","2026-06-10","TestServicesPage","test_services","",""
+"
+        用例编号: 31
+        验证成为伙伴表单可以正常提交
+        ","5626","TC031-成为伙伴表单提交","test_scripts","2026-06-10","passed","2026-06-10","TestAboutPage","test_about","",""
+"
+        用例编号: 18
+        验证可以通过左右箭头按钮切换大事件内容
+        ","4555","TC018-左右切换按钮切换事件内容","test_scripts","2026-06-10","passed","2026-06-10","TestEventsPage","test_events","",""
+"
+        用例编号: 29
+        验证可以在'我想改善健康'和'我想成为伙伴'之间切换
+        ","3354","TC029-表单类型切换","test_scripts","2026-06-10","passed","2026-06-10","TestAboutPage","test_about","",""
+"
+        用例编号: 19
+        验证点击大事件资讯可以跳转到详情页
+        ","5324","TC019-点击大事件资讯跳转详情","test_scripts","2026-06-10","passed","2026-06-10","TestEventsPage","test_events","",""
+"
+        用例编号: 30
+        验证改善健康表单可以正常提交
+        ","6168","TC030-改善健康表单提交","test_scripts","2026-06-10","passed","2026-06-10","TestAboutPage","test_about","",""
+"
+        用例编号: 26
+        验证关于我们页面可以正常访问
+        ","2923","TC026-关于我们页面响应正常","test_scripts","2026-06-10","passed","2026-06-10","TestAboutPage","test_about","",""
+"
+        用例编号: 27
+        验证产品介绍区域展示正常
+        ","2776","TC027-产品介绍展示","test_scripts","2026-06-10","passed","2026-06-10","TestAboutPage","test_about","",""
+"
+        用例编号: 4
+        验证生命周期健康管理服务的tab切换功能
+        ","25400","TC004-生命周期健康管理服务切换","test_scripts","2026-06-10","failed","2026-06-10","TestHomePage","test_home","",""
+"
+        用例编号: 17
+        验证大事件页面可以正常访问
+        ","2414","TC017-大事件页面响应正常","test_scripts","2026-06-10","passed","2026-06-10","TestEventsPage","test_events","",""
+"
+        用例编号: 22
+        验证点击健康资讯可以跳转到详情页
+        ","5902","TC022-点击健康资讯跳转详情","test_scripts","2026-06-10","passed","2026-06-10","TestEventsPage","test_events","",""
+"
+        用例编号: 8
+        验证点击底部导航栏的'大事件'可以切换页面
+        ","10690","TC008-底部导航栏切换大事件","test_scripts","2026-06-10","passed","2026-06-10","TestHomePage","test_home","",""
